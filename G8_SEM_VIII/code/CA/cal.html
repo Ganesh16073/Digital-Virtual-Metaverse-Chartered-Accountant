@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Return Process</title>
+    <link rel="stylesheet" href="/CA/cal.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Income Tax Return Process</h1>
+        <form id="taxForm">
+            <label for="entityType">Identify Entity Type:</label>
+            <select id="entityType" name="entityType" required>
+                <option value="">Select Entity Type</option>
+                <option value="individual">Individual (Personal)</option>
+                <option value="private-ltd">Private Limited Company</option>
+                <option value="public-ltd">Public Limited Company</option>
+                <option value="trust">Trust</option>
+                <option value="partnership">Partnership Firm</option>
+            </select>
+
+            <div id="individual-options" class="options">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age">
+            </div>
+
+            <div id="company-options" class="options">
+                <label for="turnover">Turnover:</label>
+                <input type="number" id="turnover" name="turnover">
+                <label for="section">Section (115BA, 115BAA, 115BAB):</label>
+                <input type="text" id="section" name="section">
+            </div>
+
+            <div id="trust-options" class="options">
+                <label for="royalty">Royalty Income:</label>
+                <select id="royalty" name="royalty">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+
+            <label for="income">Income:</label>
+            <input type="number" id="income" name="income" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

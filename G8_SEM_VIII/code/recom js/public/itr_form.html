@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITR Recommendation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="form-container">
+        <h1>ITR Recommendation</h1>
+        <form id="itrForm">
+            <label for="entity_type">Entity Type:</label>
+            <select id="entity_type" name="entity_type" required>
+                <option value="">Select Entity Type</option>
+                <option value="Individual">Individual</option>
+                <option value="HUF">HUF</option>
+                <option value="Firm">Firm</option>
+                <option value="Partnership Firm">Partnership Firm</option>
+                <option value="LLP">LLP</option>
+                <option value="Company">Company</option>
+                <option value="Trust">Trust</option>
+            </select>
+
+            <label for="residence">Residence:</label>
+            <select id="residence" name="residence" required>
+                <option value="">Select Residence</option>
+                <option value="Resident">Resident</option>
+                <option value="Non-Resident">Non-Resident</option>
+            </select>
+
+            <label for="business_income">Business Income:</label>
+            <select id="business_income" name="business_income" required>
+                <option value="">Select Business Income</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Presumptive Business Income">Presumptive Business Income</option>
+            </select>
+
+            <label for="capital_gains">Capital Gains:</label>
+            <select id="capital_gains" name="capital_gains" required>
+                <option value="">Select Capital Gains</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="foreign_assets">Foreign Assets:</label>
+            <select id="foreign_assets" name="foreign_assets" required>
+                <option value="">Select Foreign Assets</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="carry_forward_loss">Carry Forward Loss:</label>
+            <select id="carry_forward_loss" name="carry_forward_loss" required>
+                <option value="">Select Carry Forward Loss</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <button type="submit">Recommend ITR Form</button>
+        </form>
+    </div>
+
+    <div class="container" id="result-container" style="display: none;">
+        <h1>Recommendation Result</h1>
+        <p><strong>Recommended ITR Form:</strong> <span id="itr_form"></span></p>
+        <a href="#" id="back-to-form">Back to Form</a>
+    </div>
+
+    <script>
+        function recommendItrForm(profile) {
+            if (profile.entity_type === 'Individual') {
+                if (profile.residence === 'Resident') {
+                    if (profile.business_income === 'No' && profile.capital_gains === 'No' && profile.foreign_assets === 'No' && profile.carry_forward_loss === 'No') {
+                        return 'ITR-1 / Sahaj';
+                    } else if (profile.capital_gains === 'Yes' || profile.carry_forward_loss === 'Yes') {
+                        return 'ITR-2';
+                    } else {
+                        return 'ITR-3';
+                    }
+                } else {
+                    if (profile.business_income === 'Presumptive Business Income' && profile.capital_gains === 'No') {
+                        return 'ITR-4';
+                    } else {
+                        return 'ITR-2';
+                    }
+                }
+            } else if (profile.entity_type === 'HUF') {
+                if (profile.business_income === 'Presumptive Business Income' && profile.capital_gains === 'No') {
+                    return 'ITR-4';
+                } else {
+                    return 'ITR-2';
+                }
+            } else if (profile.entity_type === 'Firm') {
+                return 'ITR-4';
+            } else if (profile.entity_type === 'Partnership Firm' || profile.entity_type === 'LLP') {
+                return 'ITR-5';
+            } else if (profile.entity_type === 'Company') {
+                return 'ITR-6';
+            } else if (profile.entity_type === 'Trust') {
+                return 'ITR-7';
+            } else {
+                return 'Unknown';
+            }
+        }
+
+        document.getElementById('itrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            const recommendedForm = recommendItrForm(data);
+
+            document.getElementById('itr_form').textContent = recommendedForm;
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('result-container').style.display = 'block';
+        });
+
+        document.getElementById('back-to-form').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('form-container').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
